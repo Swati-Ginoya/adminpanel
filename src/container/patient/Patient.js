@@ -18,6 +18,7 @@ function Patient(props) {
   const [open, setOpen] = React.useState(false);
   const [dopen, setDOpen] = React.useState(false);
   const [did ,setDid] = useState(0);
+  const [update ,setUpdate] = useState(false)
   let [data, setData] = useState([]);
 
   const handleDClickOpen = () => {
@@ -31,11 +32,34 @@ function Patient(props) {
   const handleClose = () => {
     setOpen(false);
     setDOpen(false);
+    setUpdate(false);
+    formikObj.resetForm();
+  }
+
+  const handleUpdate = (values) =>{
+    let localData = JSON.parse(localStorage.getItem("patient"))
+
+    let uData = localData.map((d) => {
+      if (d.id === values.id) {
+        return values;
+      } else {
+        return d;
+      }
+    })
+
+    localStorage.setItem("patient", JSON.stringify(uData));
+
+    loadData();
+    formikObj.resetForm();
+    handleClose()
+
   }
 
   const handleEdit = (params) =>{
-    handleClickOpen()
+   setUpdate(true)
 
+    handleClickOpen()
+ 
     formikObj.setValues(params.row)
   }
 
@@ -83,7 +107,15 @@ function Patient(props) {
     validationSchema: schema,
     onSubmit: values => {
       console.log(values);
-      insertData(values);
+
+
+      {
+        if(update){
+          handleUpdate(values);
+        }else{
+          insertData(values);
+        }
+      }
     },
   });
 
@@ -168,7 +200,12 @@ function Patient(props) {
       </Dialog>
 
       <Dialog open={open} onClose={handleClose} fullWidth>
+        { 
+          update ?
+        <DialogTitle>Update Patient Form</DialogTitle>
+          :
         <DialogTitle>Fill Patient Form</DialogTitle>
+      }
         <Formik values={formikObj}>
           <Form onSubmit={handleSubmit}>
             <DialogContent>
@@ -234,7 +271,13 @@ function Patient(props) {
               {errors.date && touched.date ? <p>{errors.date}</p> : ''}
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
+                {
+                  update ?
+                  
+                <Button type='submit'>Update</Button>
+                :
                 <Button type='submit'>Submit</Button>
+              }
               </DialogActions>
             </DialogContent>
           </Form>
