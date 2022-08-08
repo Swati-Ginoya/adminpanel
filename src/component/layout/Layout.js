@@ -20,6 +20,8 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import MedicationIcon from '@mui/icons-material/Medication';
 import AccessibleIcon from '@mui/icons-material/Accessible';
+import PersonIcon from '@mui/icons-material/Person';
+import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
 import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -83,7 +85,9 @@ export default function Layout({children}) {
 
   const itemList = [
       {label:'Medicine' ,to:'/Medicine' ,icon:<MedicationIcon/>} ,
-      {label:'Patient' ,to:'/Patient' ,icon:<AccessibleIcon/>} 
+      {label:'Patient' ,to:'/Patient' ,icon:<AccessibleIcon/>},
+      {label:'Doctor' ,to:'/Doctor' ,icon:<PersonIcon/>},
+      {label:'Counter' ,to:'/Counter',icon:<HourglassDisabledIcon/>} 
 
   ]
   return (

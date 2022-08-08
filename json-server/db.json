@@ -1,0 +1,46 @@
+{
+  "Medicines": [
+    {
+      "id": 3,
+      "name": "ostrich",
+      "price": "2000",
+      "quantity": "5000",
+      "expiry": "30/10/2035"
+    },
+    {
+      "id": 4,
+      "name": "chupre",
+      "price": "2500",
+      "quantity": "1980",
+      "expiry": "16/01/2027"
+    },
+    {
+      "id": 226,
+      "name": "swatifff",
+      "price": 45,
+      "quantity": 6,
+      "expiry": 7
+    },
+    {
+      "id": 85,
+      "name": "chutki",
+      "price": 12,
+      "quantity": 234,
+      "expiry": 23
+    }
+  ],
+  "Patients": [
+    {
+      "id": 299,
+      "name": "swatirtr",
+      "gender": "hgfg",
+      "disease": "SWA",
+      "fees": 34,
+      "data": "",
+      "date": "2022-08-17"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

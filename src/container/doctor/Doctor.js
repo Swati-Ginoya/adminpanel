@@ -16,7 +16,7 @@ import { add_Patient, delete_Patient, Get_Patient, update_Patients } from '../..
 import { useDispatch, useSelector } from 'react-redux';
 
 
-function Patient(props) {
+function Doctor(props) {
   const [open, setOpen] = React.useState(false);
   const [dopen, setDOpen] = React.useState(false);
   const [did ,setDid] = useState(0);
@@ -313,4 +313,4 @@ function Patient(props) {
   );
 }
 
-export default Patient;
+export default Doctor;
