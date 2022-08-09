@@ -1,5 +1,5 @@
 
-import { deleteRequest, deleterequest, getRequest, postRequest, putRequest } from '../Request'
+import { deleteRequest, getRequest, postRequest, putRequest } from '../Request'
 
 export const getAllMedicine = () => {
     return getRequest('Medicines')
