@@ -1,32 +1,32 @@
 {
   "Medicines": [
     {
-      "id": 3,
-      "name": "ostrich",
-      "price": "2000",
-      "quantity": "5000",
-      "expiry": "30/10/2035"
-    },
-    {
-      "id": 4,
-      "name": "chupre",
-      "price": "2500",
-      "quantity": "1980",
-      "expiry": "16/01/2027"
-    },
-    {
-      "id": 226,
-      "name": "swatifff",
-      "price": 45,
-      "quantity": 6,
-      "expiry": 7
-    },
-    {
       "id": 85,
       "name": "chutki",
       "price": 12,
       "quantity": 234,
       "expiry": 23
+    },
+    {
+      "id": 929,
+      "name": "hai hai",
+      "price": 23,
+      "quantity": 32,
+      "expiry": 12
+    },
+    {
+      "id": 17,
+      "name": "oye oye",
+      "price": 12,
+      "quantity": 23,
+      "expiry": 45
+    },
+    {
+      "id": 717,
+      "name": "hmmmmm",
+      "price": 12,
+      "quantity": 54,
+      "expiry": 76
     }
   ],
   "Patients": [
