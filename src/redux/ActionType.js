@@ -14,3 +14,13 @@ export const GET_PATIENTS ="GET_PATIENTS";
 export const DELETE_PATIENTS = "DELETE_PATIENTS";
 export const ADD_PATIENTS = "ADD_PATIENTS";
 export const UPDATE_PATIENTS = "UPDATE_PATIENTS";
+
+
+export const GET_DOCTOR = "GET_DOCTOR"
+export const DOCTOR_ERROR = "DOCTOR_ERROR";
+export const DOCTOR_LOADING = "DOCTOR_LOADING";
+export const ADD_DOCTORS = "ADD_DOCTORS";
+export const DELETE_DOCTORS = "DELETE_DOCTORS";
+export const UPDATE_DOCTORS = "UPDATE_DOCTORS";
+
+

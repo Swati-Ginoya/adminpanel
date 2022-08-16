@@ -14,6 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { add_Patient, delete_Patient, Get_Patient, update_Patients } from '../../redux/action/patient.action';
 import { useDispatch, useSelector } from 'react-redux';
+import { add_doctor, delete_doctor, get_Doctor, update_doctor } from '../../redux/action/Doctor.action';
 
 
 function Doctor(props) {
@@ -39,7 +40,7 @@ function Doctor(props) {
   }
 
   const handleUpdate = (values) =>{
-    // let localData = JSON.parse(localStorage.getItem("patient"))
+    // let localData = JSON.parse(localStorage.getItem("doctor"))
 
     // let uData = localData.map((d) => {
     //   if (d.id === values.id) {
@@ -49,9 +50,10 @@ function Doctor(props) {
     //   }
     // })
 
-    // localStorage.setItem("patient", JSON.stringify(uData));
+    // localStorage.setItem("doctor", JSON.stringify(uData));
 
-    dispatch(update_Patients(values));
+   
+    dispatch(update_doctor(values))
 
     loadData();
     formikObj.resetForm();
@@ -68,15 +70,15 @@ function Doctor(props) {
   }
 
   let schema = yup.object().shape({
-    name: yup.string().required("Enter patient name"),
-    gender: yup.string().required("Enter patient gender"),
-    disease: yup.string().required("Enter patient disease"),
-    fees: yup.number().required("Enter medical fees"),
-    date: yup.string().required("Enter appointment date")
+    name: yup.string().required("Enter doctor name"),
+    designation: yup.string().required("Enter doctor designation"),
+    department: yup.string().required("Enter doctor department"),
+    salary: yup.number().required("Enter doctor salary"),
+    qualification: yup.string().required("Enter doctor qualification")
   });
 
   const insertData = (values) => {
-    let localData = JSON.parse(localStorage.getItem('patient'));
+    // let localData = JSON.parse(localStorage.getItem('doctor'));
 
     let id = Math.floor(Math.random() * 1000);
 
@@ -85,16 +87,16 @@ function Doctor(props) {
       ...values
     }
 
-    console.log(data);
+    // console.log(data);
 
     // if (localData === null) {
-    //   localStorage.setItem("patient", JSON.stringify([data]));
+    //   localStorage.setItem("doctor", JSON.stringify([data]));
     // } else {
     //   localData.push(data);
-    //   localStorage.setItem("patient", JSON.stringify(localData));
+    //   localStorage.setItem("doctor", JSON.stringify(localData));
     // }
 
-    dispatch(add_Patient(data));
+    dispatch (add_doctor(data))
 
     loadData();
     formikObj.resetForm();
@@ -104,10 +106,10 @@ function Doctor(props) {
   const formikObj = useFormik({
     initialValues: {
       name: '',
-      gender:'',
-      disease: '',
-      fees: '',
-      data: ''
+      designation:'',
+      department: '',
+      salary: '',
+      qualification: ''
     },
     validationSchema: schema,
     onSubmit: values => {
@@ -125,20 +127,21 @@ function Doctor(props) {
   });
 
   const handleDelete = () => {
-    // let localData = JSON.parse(localStorage.getItem("patient"))
+    // let localData = JSON.parse(localStorage.getItem("doctor"))
     // let fData = localData.filter((d) => d.id !== did)
-    // localStorage.setItem("patient", JSON.stringify(fData))
+    // localStorage.setItem("doctor", JSON.stringify(fData))
 
-    dispatch(delete_Patient(did));
+    dispatch(delete_doctor(did))
+    
     loadData();
     handleClose()
   }
   const columns = [
-    { field: 'name', headerName: 'Patient Name', width: 170 },
-    { field: 'gender', headerName: 'Patient Gender', width: 170 },
-    { field: 'disease', headerName: 'Patient Disease', width: 170 },
-    { field: 'fees', headerName: 'Medical Fees', width: 170 },
-    { field: 'date', headerName: 'Appointment date', width: 170 },
+    { field: 'name', headerName: 'Doctor Name', width: 170 },
+    { field: 'designation', headerName: 'Doctor designation', width: 170 },
+    { field: 'department', headerName: 'Doctor department', width: 170 },
+    { field: 'salary', headerName: 'Doctor salary', width: 170 },
+    { field: 'qualification', headerName: 'Doctor qualification', width: 170 },
     {
       field: 'action',
       headerName: 'Action',
@@ -160,17 +163,18 @@ function Doctor(props) {
   useEffect(() => {
     // loadData();
 
-    dispatch(Get_Patient(data));
+    dispatch(get_Doctor(data))
   }
     , [])
 
-    const dispatch=useDispatch();
+  const dispatch=useDispatch();
 
-    const Patient=useSelector(state => state.patient)
+  const Doctor = useSelector(state => state.doctor)
+   
 
   const loadData = () => {
 
-    let localData = JSON.parse(localStorage.getItem('patient'))
+    let localData = JSON.parse(localStorage.getItem('doctor'))
 
     if (localData !== null) {
       setData(localData)
@@ -181,23 +185,23 @@ function Doctor(props) {
   return (
     <div>
       {
-        Patient.isloading ?
+        Doctor.isloading ?
         <p>loading ....</p>
         :
-        Patient.error !== ''?
-        <p>{Patient.error}</p>
+        Doctor.error !== ''?
+        <p>{Doctor.error}</p>
         :
          <div>
          <Button variant="outlined" onClick={handleClickOpen}>
-           Patient Detail
+           Doctor Detail
          </Button>
    
-         <div style={{ height: 400, width: '100%' }}>
+         <div style={{ height: 600, width: '100%' }}>
            <DataGrid
-             rows={Patient.patient}
+             rows={Doctor.doctor}
              columns={columns}
-             pageSize={5}
-             rowsPerPageOptions={[5]}
+             pageSize={20}
+             rowsPerPageOptions={[20]}
              checkboxSelection
            />
          </div>
@@ -223,9 +227,9 @@ function Doctor(props) {
          <Dialog open={open} onClose={handleClose} fullWidth>
            { 
              update ?
-           <DialogTitle>Update Patient Form</DialogTitle>
+           <DialogTitle>Update Doctor Form</DialogTitle>
              :
-           <DialogTitle>Fill Patient Form</DialogTitle>
+           <DialogTitle>Fill Doctor Form</DialogTitle>
          }
            <Formik values={formikObj}>
              <Form onSubmit={handleSubmit}>
@@ -234,7 +238,7 @@ function Doctor(props) {
                  value={values.name}
                    margin="dense"
                    name="name"
-                   label="Patient Name"
+                   label="Doctor Name"
                    type="text"
                    fullWidth
                    variant="standard"
@@ -243,53 +247,53 @@ function Doctor(props) {
                  />
                  {errors.name && touched.name ? <p>{errors.name}</p> : ''}
                  <TextField
-                 value={values.gender}
+                 value={values.designation}
                  margin="dense"
-                   name="gender"
-                   label="Patient Gender"
+                   name="designation"
+                   label="Doctor designation"
                    type="text"
                    fullWidth
                    variant="standard"
                    onChange={handleChange}
                    onBlur={handleBlur}
                  />
-                  {errors.gender && touched.gender ? <p>{errors.gender}</p> : ''}
+                  {errors.designation && touched.designation ? <p>{errors.designation}</p> : ''}
                  <TextField
-                 value={values.disease}
+                 value={values.department}
                  margin="dense"
-                   name="disease"
-                   label="Disease"
+                   name="department"
+                   label="Doctor department"
                    type="text"
                    fullWidth
                    variant="standard"
                    onChange={handleChange}
                    onBlur={handleBlur}
                  />
-                 {errors.disease && touched.disease ? <p>{errors.disease}</p> : ''}
+                 {errors.department && touched.department ? <p>{errors.department}</p> : ''}
                  <TextField
-                 value={values.fees}
+                 value={values.salary}
                  margin="dense"
-                   name="fees"
-                   label="Fees"
+                   name="salary"
+                   label="Doctor salary"
                    type="number"
                    fullWidth
                    variant="standard"
                    onChange={handleChange}
                    onBlur={handleBlur}
                  />
-                 {errors.fees && touched.fees ? <p>{errors.fees}</p> : ''}
+                 {errors.salary && touched.salary ? <p>{errors.salary}</p> : ''}
                  <TextField
-                 value={values.date}
+                 value={values.qualification}
                  margin="dense"
-                   name="date"
-                   label=""
-                   type="date"
+                   name="qualification"
+                   label="Doctor qualification"
+                   type="text"
                    fullWidth
                    variant="standard"
                    onChange={handleChange}
                    onBlur={handleBlur}
                  />
-                 {errors.date && touched.date ? <p>{errors.date}</p> : ''}
+                 {errors.qualification && touched.qualification ? <p>{errors.qualification}</p> : ''}
                  <DialogActions>
                    <Button onClick={handleClose}>Cancel</Button>
                    {

@@ -32,7 +32,7 @@
   "Patients": [
     {
       "id": 210,
-      "name": "swatidgrtdsxcv",
+      "name": "swati",
       "gender": "female",
       "disease": "non",
       "fees": 12,
@@ -67,7 +67,94 @@
       "date": "2022-08-19"
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "Doctors": [
+    {
+      "id": 1,
+      "name": "Swati Ginoya",
+      "designation": "HOD",
+      "department": "Heart Department",
+      "salary": 200000000,
+      "qualification": "phd"
+    },
+    {
+      "id": 2,
+      "name": "Abhi Birla",
+      "designation": "Cardiologist",
+      "department": "Heart Department",
+      "salary": 2000000,
+      "qualification": "psd"
+    },
+    {
+      "id": 3,
+      "name": "Nenu Kalathiya",
+      "designation": "Oesteopathic",
+      "department": "Department",
+      "salary": 22340000,
+      "qualification": "jpg"
+    },
+    {
+      "id": 4,
+      "name": "Zenisha",
+      "designation": "Geology",
+      "department": "Heart Department",
+      "salary": 200034500,
+      "qualification": "png"
+    },
+    {
+      "id": 684,
+      "name": "swati",
+      "designation": "dentist",
+      "department": "dental department",
+      "salary": 4567889,
+      "qualification": "MBBS"
+    },
+    {
+      "id": 400,
+      "name": "swati ginoya",
+      "designation": "sadas",
+      "department": "dsad",
+      "salary": 12334,
+      "qualification": "3422"
+    },
+    {
+      "name": "swati",
+      "designation": "sadas",
+      "department": "dental department",
+      "salary": 8,
+      "qualification": "1",
+      "id": 685
+    },
+    {
+      "id": 372,
+      "name": "maya mehta",
+      "designation": "chaya",
+      "department": "jaya",
+      "salary": 1197,
+      "qualification": "phd in ordology"
+    },
+    {
+      "id": 504,
+      "name": "Akshara Goenka",
+      "designation": "Music Therapist",
+      "department": "Music Department",
+      "salary": 2000000000,
+      "qualification": "MBBS"
+    },
+    {
+      "id": 362,
+      "name": "Pressha Khurana",
+      "designation": "Denitst",
+      "department": "Dental Department",
+      "salary": 4567894,
+      "qualification": "Dentist"
+    },
+    {
+      "id": 875,
+      "name": "Akshara Goenka",
+      "designation": "Denitst",
+      "department": "Music Department",
+      "salary": 1234456,
+      "qualification": "MBBS"
+    }
+  ]
 }
