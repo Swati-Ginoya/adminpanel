@@ -158,7 +158,7 @@ function Patient(props) {
       setData(localData)
     }
   }
-  const { handleBlur, handleChange, errors, handleSubmit, touched, values } = formikObj
+  const { handleBlur, handleChange, errors, handleSubmit, touched, values ,setFieldValue } = formikObj
 
   return (
     <div>
