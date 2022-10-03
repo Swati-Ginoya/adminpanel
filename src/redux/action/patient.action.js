@@ -1,7 +1,8 @@
 import * as ActionType from "../ActionType";
-import { db } from "../../firebase/firebase";
+import { db, storage } from "../../firebase/firebase";
 import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { async } from "@firebase/util";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export const Get_Patient = () => async (dispatch) => {
 
@@ -10,8 +11,6 @@ export const Get_Patient = () => async (dispatch) => {
         let data = [];
         querySnapshot.forEach((doc) => {
             data.push({ id: doc.id, ...doc.data() })
-            console.log(`${doc.id} => ${doc.data()}`);
-            console.log(data);
         });
         dispatch({ type: ActionType.GET_PATIENTS, payload: data })
     } catch (error) {
@@ -22,11 +21,18 @@ export const Get_Patient = () => async (dispatch) => {
 export const loading_Patient = () => (dispatch) => {
     dispatch({ type: ActionType.PATIENT_LOADING })
 }
-export const delete_Patient = (id) => async (dispatch) => {
+export const delete_Patient = (data) => async (dispatch) => {
     try {
-        await deleteDoc(doc(db, "patient", id));
-        console.log(id);
-        dispatch({ type: ActionType.DELETE_PATIENTS, payload: id })
+        console.log(data.row);
+        const deletetRef = ref(storage, "patient/" + data.row.fileName);
+
+        deleteObject(deletetRef)
+            .then(async () => {
+                await deleteDoc(doc(db, "Doctors", data.id));
+                dispatch({ type: ActionType.DELETE_PATIENTS, payload: data.id })
+            }).catch((error) => {
+                dispatch(error_Patient(error.message))
+            });
     } catch (error) {
         dispatch(error_Patient(error.message))
     }
@@ -34,9 +40,25 @@ export const delete_Patient = (id) => async (dispatch) => {
 
 export const add_Patient = (data) => async (dispatch) => {
     try {
-        const docRef = await addDoc(collection(db, "patient"), data);
-        console.log("Document written with ID: ", docRef.id);
-        dispatch({ type: ActionType.ADD_PATIENTS, payload: { id: docRef.id, ...data } })
+        const patientRef = ref(storage, 'patient/' + data.profile.name);
+        uploadBytes(patientRef, data.profile)
+            .then((snapshot) => {
+                getDownloadURL(ref(storage, snapshot.ref))
+                    .then(async (url) => {
+                        const docRef = await addDoc(collection(db, "patient"), {
+                            ...data,
+                            profile: url
+                        });
+                        dispatch({
+                            type: ActionType.ADD_PATIENTS, payload: {
+                                id: docRef.id,
+                                ...data,
+                                profile: url
+                            }
+                        })
+                    });
+            });
+
     } catch (error) {
         dispatch(error_Patient(error.message));
     }
@@ -45,19 +67,45 @@ export const add_Patient = (data) => async (dispatch) => {
 export const update_Patients = (data) => async (dispatch) => {
     try {
         const patientRef = doc(db, "patient", data.id);
-        await updateDoc(patientRef, {
-            name: data.name,
-            gender: data.gender,
-            disease: data.disease,
-            fees: data.fees,
-            date: data.date
-        });
-        dispatch({ type: ActionType.UPDATE_PATIENTS, payload: data })
+        if (typeof data.profile === "string") {
+            await updateDoc(patientRef, {
+                name: data.name,
+                gender: data.gender,
+                disease: data.disease,
+                fees: data.fees,
+                date: data.date
+            });
+            dispatch({ type: ActionType.UPDATE_PATIENTS, payload: data })
+        } else {
+            const delpatientRef = ref(storage, "patient/" + data.fileName);
+            let radomNum = Math.floor(Math.random() * 1000000).toString();
+            const uppatientRef = ref(storage, 'patient/' + radomNum);
+
+            deleteObject(delpatientRef)
+                .then(() => {
+                    uploadBytes(uppatientRef, data.profile)
+                        .then((snapshot) => {
+                            getDownloadURL(ref(storage, snapshot.ref))
+                                .then(async (url) => {
+                                    await updateDoc(patientRef, {
+                                        name: data.name,
+                                        email: data.email,
+                                        phone: data.phone,
+                                        fileName: radomNum,
+                                        prof_img: url
+                                    });
+                                    dispatch({ type: ActionType.UPDATE_PATIENTS, payload: { ...data, fileName: radomNum, profile: url } })
+                                })
+                        })
+                })
+        }
+
     } catch (error) {
-        dispatch(error_Patient(error.message));
+        dispatch(error_Patient  (error.message));
     }
 }
 
 export const error_Patient = (error) => (dispatch) => {
     dispatch({ type: ActionType.PATIENT_ERROR, payload: error })
 }
+

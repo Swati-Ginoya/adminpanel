@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useFormik, Form, Formik } from "formik";
 import * as yup from 'yup';
@@ -62,12 +61,13 @@ function Patient(props) {
     gender: yup.string().required("Enter patient gender"),
     disease: yup.string().required("Enter patient disease"),
     fees: yup.number().required("Enter medical fees"),
-    date: yup.string().required("Enter appointment date")
+    date: yup.string().required("Enter appointment date"),
+    profile: yup.mixed().required("Select your profile image")
   });
 
   const insertData = (values) => {
 
-    dispatch(add_Patient(data));
+    dispatch(add_Patient(values));
 
     loadData();
     formikObj.resetForm();
@@ -80,7 +80,8 @@ function Patient(props) {
       gender: '',
       disease: '',
       fees: '',
-      date: ''
+      date: '',
+      profile: ''
     },
     validationSchema: schema,
     onSubmit: values => {
@@ -112,6 +113,14 @@ function Patient(props) {
     { field: 'disease', headerName: 'Patient Disease', width: 170 },
     { field: 'fees', headerName: 'Medical Fees', width: 170 },
     { field: 'date', headerName: 'Appointment date', width: 170 },
+    { 
+      field: 'profile', 
+      headerName: 'Profile Image', 
+      width: 170 ,
+      renderCell : (params) => (
+          <img src={params.row.profile} width={50} height={50}/>
+      )
+  },
     {
       field: 'action',
       headerName: 'Action',
@@ -263,6 +272,12 @@ function Patient(props) {
                         onBlur={handleBlur}
                       />
                       {errors.date && touched.date ? <p>{errors.date}</p> : ''}
+                      <input
+                        type="file"
+                        name="profile"
+                        onChange={(e) => setFieldValue("profile", e.target.files[0])}
+                      />
+                      {errors.profile && touched.profile ? <p>{errors.profile}</p> : ''}
                       <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
                         {
