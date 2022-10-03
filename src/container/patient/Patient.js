@@ -19,8 +19,8 @@ import { useDispatch, useSelector } from 'react-redux';
 function Patient(props) {
   const [open, setOpen] = React.useState(false);
   const [dopen, setDOpen] = React.useState(false);
-  const [did ,setDid] = useState(0);
-  const [update ,setUpdate] = useState(false)
+  const [did, setDid] = useState(0);
+  const [update, setUpdate] = useState(false)
   let [data, setData] = useState([]);
 
   const handleDClickOpen = () => {
@@ -38,18 +38,8 @@ function Patient(props) {
     formikObj.resetForm();
   }
 
-  const handleUpdate = (values) =>{
-    // let localData = JSON.parse(localStorage.getItem("patient"))
+  const handleUpdate = (values) => {
 
-    // let uData = localData.map((d) => {
-    //   if (d.id === values.id) {
-    //     return values;
-    //   } else {
-    //     return d;
-    //   }
-    // })
-
-    // localStorage.setItem("patient", JSON.stringify(uData));
 
     dispatch(update_Patients(values));
 
@@ -59,11 +49,11 @@ function Patient(props) {
 
   }
 
-  const handleEdit = (params) =>{
-   setUpdate(true)
+  const handleEdit = (params) => {
+    setUpdate(true)
 
     handleClickOpen()
- 
+
     formikObj.setValues(params.row)
   }
 
@@ -76,23 +66,6 @@ function Patient(props) {
   });
 
   const insertData = (values) => {
-    let localData = JSON.parse(localStorage.getItem('patient'));
-
-    let id = Math.floor(Math.random() * 1000);
-
-    let data = {
-      id: id,
-      ...values
-    }
-
-    console.log(data);
-
-    // if (localData === null) {
-    //   localStorage.setItem("patient", JSON.stringify([data]));
-    // } else {
-    //   localData.push(data);
-    //   localStorage.setItem("patient", JSON.stringify(localData));
-    // }
 
     dispatch(add_Patient(data));
 
@@ -104,10 +77,10 @@ function Patient(props) {
   const formikObj = useFormik({
     initialValues: {
       name: '',
-      gender:'',
+      gender: '',
       disease: '',
       fees: '',
-      data: ''
+      date: ''
     },
     validationSchema: schema,
     onSubmit: values => {
@@ -115,9 +88,9 @@ function Patient(props) {
 
 
       {
-        if(update){
+        if (update) {
           handleUpdate(values);
-        }else{
+        } else {
           insertData(values);
         }
       }
@@ -145,14 +118,14 @@ function Patient(props) {
       width: 170,
       renderCell: (params) => (
         <>
-        <IconButton aria-label="edit" onClick={() => handleEdit(params)}>
-         <EditIcon />
-       </IconButton>
-        <IconButton aria-label="delete" onClick={() => {handleDClickOpen() ;setDid(params.id)}}>
-          <DeleteIcon />
-        </IconButton>
-         
-       </>
+          <IconButton aria-label="edit" onClick={() => handleEdit(params)}>
+            <EditIcon />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={() => { handleDClickOpen(); setDid(params.id) }}>
+            <DeleteIcon />
+          </IconButton>
+
+        </>
       )
     }
   ];
@@ -164,9 +137,9 @@ function Patient(props) {
   }
     , [])
 
-    const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
-    const Patient=useSelector(state => state.patient)
+  const Patient = useSelector(state => state.patient)
 
   const loadData = () => {
 
@@ -176,140 +149,140 @@ function Patient(props) {
       setData(localData)
     }
   }
-  const { handleBlur, handleChange, errors, handleSubmit, touched ,values} = formikObj
+  const { handleBlur, handleChange, errors, handleSubmit, touched, values } = formikObj
 
   return (
     <div>
       {
         Patient.isloading ?
-        <p>loading ....</p>
-        :
-        Patient.error !== ''?
-        <p>{Patient.error}</p>
-        :
-         <div>
-         <Button variant="outlined" onClick={handleClickOpen}>
-           Patient Detail
-         </Button>
-   
-         <div style={{ height: 400, width: '100%' }}>
-           <DataGrid
-             rows={Patient.patient}
-             columns={columns}
-             pageSize={5}
-             rowsPerPageOptions={[5]}
-             checkboxSelection
-           />
-         </div>
-   
-         <Dialog
-           open={dopen}
-           onClose={handleClose}
-           aria-labelledby="alert-dialog-title"
-           aria-describedby="alert-dialog-description"
-         >
-           <DialogTitle id="alert-dialog-title">
-             {"Are you sure to delete?"}
-           </DialogTitle>
-   
-           <DialogActions>
-             <Button onClick={handleClose}>No</Button>
-             <Button onClick={handleDelete} autoFocus>
-               Yes
-             </Button>
-           </DialogActions>
-         </Dialog>
-   
-         <Dialog open={open} onClose={handleClose} fullWidth>
-           { 
-             update ?
-           <DialogTitle>Update Patient Form</DialogTitle>
-             :
-           <DialogTitle>Fill Patient Form</DialogTitle>
-         }
-           <Formik values={formikObj}>
-             <Form onSubmit={handleSubmit}>
-               <DialogContent>
-                 <TextField
-                 value={values.name}
-                   margin="dense"
-                   name="name"
-                   label="Patient Name"
-                   type="text"
-                   fullWidth
-                   variant="standard"
-                   onChange={handleChange}
-                   onBlur={handleBlur}
-                 />
-                 {errors.name && touched.name ? <p>{errors.name}</p> : ''}
-                 <TextField
-                 value={values.gender}
-                 margin="dense"
-                   name="gender"
-                   label="Patient Gender"
-                   type="text"
-                   fullWidth
-                   variant="standard"
-                   onChange={handleChange}
-                   onBlur={handleBlur}
-                 />
-                  {errors.gender && touched.gender ? <p>{errors.gender}</p> : ''}
-                 <TextField
-                 value={values.disease}
-                 margin="dense"
-                   name="disease"
-                   label="Disease"
-                   type="text"
-                   fullWidth
-                   variant="standard"
-                   onChange={handleChange}
-                   onBlur={handleBlur}
-                 />
-                 {errors.disease && touched.disease ? <p>{errors.disease}</p> : ''}
-                 <TextField
-                 value={values.fees}
-                 margin="dense"
-                   name="fees"
-                   label="Fees"
-                   type="number"
-                   fullWidth
-                   variant="standard"
-                   onChange={handleChange}
-                   onBlur={handleBlur}
-                 />
-                 {errors.fees && touched.fees ? <p>{errors.fees}</p> : ''}
-                 <TextField
-                 value={values.date}
-                 margin="dense"
-                   name="date"
-                   label=""
-                   type="date"
-                   fullWidth
-                   variant="standard"
-                   onChange={handleChange}
-                   onBlur={handleBlur}
-                 />
-                 {errors.date && touched.date ? <p>{errors.date}</p> : ''}
-                 <DialogActions>
-                   <Button onClick={handleClose}>Cancel</Button>
-                   {
-                     update ?
-                     
-                   <Button type='submit'>Update</Button>
-                   :
-                   <Button type='submit'>Submit</Button>
-                 }
-                 </DialogActions>
-               </DialogContent>
-             </Form>
-           </Formik >
-   
-         </Dialog>
-   
-       </div >
+          <p>loading ....</p>
+          :
+          Patient.error !== '' ?
+            <p>{Patient.error}</p>
+            :
+            <div>
+              <Button variant="outlined" onClick={handleClickOpen}>
+                Patient Detail
+              </Button>
+
+              <div style={{ height: 400, width: '100%' }}>
+                <DataGrid
+                  rows={Patient.patient}
+                  columns={columns}
+                  pageSize={5}
+                  rowsPerPageOptions={[5]}
+                  checkboxSelection
+                />
+              </div>
+
+              <Dialog
+                open={dopen}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {"Are you sure to delete?"}
+                </DialogTitle>
+
+                <DialogActions>
+                  <Button onClick={handleClose}>No</Button>
+                  <Button onClick={handleDelete} autoFocus>
+                    Yes
+                  </Button>
+                </DialogActions>
+              </Dialog>
+
+              <Dialog open={open} onClose={handleClose} fullWidth>
+                {
+                  update ?
+                    <DialogTitle>Update Patient Form</DialogTitle>
+                    :
+                    <DialogTitle>Fill Patient Form</DialogTitle>
+                }
+                <Formik values={formikObj}>
+                  <Form onSubmit={handleSubmit}>
+                    <DialogContent>
+                      <TextField
+                        value={values.name}
+                        margin="dense"
+                        name="name"
+                        label="Patient Name"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.name && touched.name ? <p>{errors.name}</p> : ''}
+                      <TextField
+                        value={values.gender}
+                        margin="dense"
+                        name="gender"
+                        label="Patient Gender"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.gender && touched.gender ? <p>{errors.gender}</p> : ''}
+                      <TextField
+                        value={values.disease}
+                        margin="dense"
+                        name="disease"
+                        label="Disease"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.disease && touched.disease ? <p>{errors.disease}</p> : ''}
+                      <TextField
+                        value={values.fees}
+                        margin="dense"
+                        name="fees"
+                        label="Fees"
+                        type="number"
+                        fullWidth
+                        variant="standard"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.fees && touched.fees ? <p>{errors.fees}</p> : ''}
+                      <TextField
+                        value={values.date}
+                        margin="dense"
+                        name="date"
+                        label=""
+                        type="date"
+                        fullWidth
+                        variant="standard"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.date && touched.date ? <p>{errors.date}</p> : ''}
+                      <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        {
+                          update ?
+
+                            <Button type='submit'>Update</Button>
+                            :
+                            <Button type='submit'>Submit</Button>
+                        }
+                      </DialogActions>
+                    </DialogContent>
+                  </Form>
+                </Formik >
+
+              </Dialog>
+
+            </div >
       }
     </div>
-   
+
   );
 }
 

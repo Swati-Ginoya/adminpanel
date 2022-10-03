@@ -27,7 +27,8 @@
       "price": 12,
       "quantity": 54,
       "expiry": 76
-    }
+    },
+    []
   ],
   "Patients": [
     {
@@ -65,7 +66,8 @@
       "fees": 9,
       "data": "",
       "date": "2022-08-19"
-    }
+    },
+    []
   ],
   "Doctors": [
     {
@@ -155,6 +157,7 @@
       "department": "Music Department",
       "salary": 1234456,
       "qualification": "MBBS"
-    }
+    },
+    []
   ]
 }

@@ -87,7 +87,8 @@ export default function Layout({children}) {
       {label:'Medicine' ,to:'/Medicine' ,icon:<MedicationIcon/>} ,
       {label:'Patient' ,to:'/Patient' ,icon:<AccessibleIcon/>},
       {label:'Doctor' ,to:'/Doctor' ,icon:<PersonIcon/>},
-      {label:'Counter' ,to:'/Counter',icon:<HourglassDisabledIcon/>} 
+      {label:'Counter' ,to:'/Counter',icon:<HourglassDisabledIcon/>} ,
+      {label:'PromiseExample' ,to:'/PromiseExample',icon:<HourglassDisabledIcon/>} 
 
   ]
   return (
